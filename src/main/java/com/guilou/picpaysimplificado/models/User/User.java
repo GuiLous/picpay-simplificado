@@ -1,15 +1,23 @@
 package com.guilou.picpaysimplificado.models.User;
 
-import jakarta.persistence.*;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import com.guilou.picpaysimplificado.dtos.UserRequestDTO;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -32,4 +40,14 @@ public class User {
     private UserType userType;
     @CreationTimestamp
     private LocalDateTime createdAt;
+
+    public User(UserRequestDTO data) {
+        this.firstName = data.firstName();
+        this.lastName = data.lastName();
+        this.document = data.document();
+        this.email = data.email();
+        this.password = data.password();
+        this.balance = data.balance();
+        this.userType = UserType.valueOf(data.userType());
+    }
 }
